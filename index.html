@@ -196,7 +196,7 @@
                                     <option value="配偶者">配偶者</option>
                                     <option value="1親等">1親等の親族（父母・子）</option>
                                     <option value="2親等">2親等の親族（祖父母・兄弟姉妹など）</option>
-                                    <option value="3親等">3親等の親族（叔父叔母・伯父伯母・甥姪など）</option>
+                                    <option value="3親等">3親等の親族（叔父叔母、曽祖父母、甥姪など）</option>
                                 </select>
                             </div>
 
@@ -218,7 +218,7 @@
                             </div>
                         </div>
 
-                        <!-- 具体的事由（体調不良・指定感染症のみ表示、忌引きは非表示） -->
+                        <!-- 具体的事由 -->
                         <div id="reason-details-container">
                             <label class="block text-xs font-semibold text-slate-700 mb-1">具体的事由・補足説明 <span class="text-rose-500">*</span></label>
                             <textarea id="reasonDetails" rows="2" placeholder="例: 38.2度の発熱と症状があり受診。インフルエンザと診断されたため登校自粛。" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-nursing-500 focus:outline-none"></textarea>
@@ -242,7 +242,7 @@
                         </div>
                     </section>
 
-                    <!-- ⑤ 欠席授業（初期3枠、教員名削除） -->
+                    <!-- ⑤ 欠席授業 -->
                     <section class="space-y-4">
                         <div class="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border-l-4 border-nursing-700">
                             <h3 class="text-sm font-bold text-nursing-800 uppercase tracking-wider flex items-center gap-2">
@@ -273,7 +273,7 @@
                         </div>
                     </section>
 
-                    <!-- ⑥ 根拠資料（証明書等）添付（分岐制御） -->
+                    <!-- ⑥ 根拠資料（証明書等）添付 -->
                     <section id="evidence-file-section" class="space-y-4">
                         <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-lg border-l-4 border-nursing-700">
                             <h3 class="text-sm font-bold text-nursing-800 uppercase tracking-wider flex items-center gap-2">
@@ -344,7 +344,6 @@
                             </tr>
                         </thead>
                         <tbody id="student-history-tbody" class="divide-y divide-slate-200 bg-white">
-                            <!-- JS挿入 -->
                         </tbody>
                     </table>
                 </div>
@@ -428,7 +427,6 @@
                             </tr>
                         </thead>
                         <tbody id="admin-tbody" class="divide-y divide-slate-200 bg-white">
-                            <!-- JS挿入 -->
                         </tbody>
                     </table>
                 </div>
@@ -452,7 +450,6 @@
             </p>
 
             <div id="modal-confirm-content" class="space-y-4 text-sm">
-                <!-- JSで動的出力 -->
             </div>
 
             <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
@@ -478,7 +475,6 @@
             </div>
 
             <div id="detail-modal-body" class="space-y-6">
-                <!-- JS挿入 -->
             </div>
 
             <!-- 教員用操作エリア -->
@@ -486,142 +482,39 @@
                 <h4 class="text-xs font-bold text-nursing-800 uppercase tracking-wider">教員・学務 審査・判定入力</h4>
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 mb-1">指示事項・判定コメント</label>
-                    <textarea id="admin-comment" rows="2" placeholder="公欠認定の理由や、不備による差戻し理由を入力してください..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-nursing-500 focus:outline-none"></textarea>
+                    <textarea id="admin-comment" rows="2" placeholder="公欠認定の理由や、不備による差戻し理由を入力してください..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-nursing-500 focus:outline-none bg-white"></textarea>
                 </div>
-                <div class="flex flex-wrap gap-2 justify-between items-center pt-2">
-                    <button onclick="printDetailModal()" class="px-3 py-1.5 bg-slate-200 text-slate-700 rounded-lg text-sm hover:bg-slate-300 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-print"></i> 印刷用表示
+                <div class="flex flex-wrap gap-2 justify-end">
+                    <button onclick="updateStatus('要確認（差戻し）')" class="px-4 py-2 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-circle-exclamation"></i> 差戻し (要再提出)
                     </button>
-                    <div class="flex space-x-2">
-                        <button onclick="updateNoticeStatus('要確認（差戻し）')" class="px-3.5 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-bold hover:bg-amber-600 transition">
-                            要確認 (差戻し)
-                        </button>
-                        <button onclick="updateNoticeStatus('一般欠席承認')" class="px-3.5 py-1.5 bg-slate-700 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">
-                            一般欠席として承認
-                        </button>
-                        <button onclick="updateNoticeStatus('公欠認定')" class="px-4 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-700 transition flex items-center gap-1">
-                            <i class="fa-solid fa-certificate"></i> 公欠として認定
-                        </button>
-                    </div>
+                    <button onclick="updateStatus('一般欠席承認')" class="px-4 py-2 bg-slate-200 text-slate-700 hover:bg-slate-300 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-user-check"></i> 一般欠席として受領
+                    </button>
+                    <button onclick="updateStatus('公欠認定')" class="px-5 py-2 bg-emerald-700 text-white hover:bg-emerald-800 rounded-lg text-xs font-bold transition flex items-center gap-1 shadow-sm">
+                        <i class="fa-solid fa-certificate"></i> 公欠（認定）として承認
+                    </button>
                 </div>
-            </div>
-
-            <div class="flex justify-end pt-2 border-t border-slate-100">
-                <button onclick="closeDetailModal()" class="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 text-sm">閉じる</button>
             </div>
         </div>
     </div>
 
-    <!-- 印刷用表示エリア -->
-    <div id="print-area" class="hidden print-only p-8 max-w-3xl mx-auto space-y-6 text-slate-900"></div>
-
-    <!-- トースト通知 -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-nursing-900 text-white px-5 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3 z-50">
-        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
-        <span id="toast-message" class="text-sm">メッセージ</span>
-    </div>
-
+    <!-- JavaScript Script Area -->
     <script>
-        let currentView = 'student';
-        let currentAttachedFile = null;
-        let currentEditingId = null;
+        let db = JSON.parse(localStorage.getItem('fcn_absence_records_v2')) || [];
+        let currentFileObj = null;
+        let selectedRecordId = null;
 
-        // 西暦計算と学籍番号例の設定
-        const currentYearStr = new Date().getFullYear().toString().slice(-2);
-        const sampleStudentId = `72${currentYearStr}999`;
-
-        // 忌引きルール（学生へ分かりやすい表現）
-        const bereavementRules = {
-            "配偶者": {
-                badge: "最大7日間",
-                title: "配偶者",
-                text: "死亡した日から起算して連続7日間の範囲内の期間"
-            },
-            "1親等": {
-                badge: "最大7日間",
-                title: "1親等の親族（父母・子）",
-                text: "死亡した日から起算して連続7日間の範囲内の期間"
-            },
-            "2親等": {
-                badge: "最大3日間",
-                title: "2親等の親族（祖父母・兄弟姉妹など）",
-                text: "死亡した日から起算して連続3日間の範囲内の期間"
-            },
-            "3親等": {
-                badge: "1日間",
-                title: "3親等の親族（叔父叔母・伯父伯母・甥姪など）",
-                text: "1日の範囲内の期間"
-            }
-        };
-
-        // 初期サンプルの設定
-        const initialDemoData = [
-            {
-                id: "FNU-20261021-001",
-                submittedAt: "2026-10-21 08:30",
-                studentGrade: "3年",
-                studentId: sampleStudentId,
-                studentName: "看護 花子",
-                reasonCategory: "学校保健安全法の指定感染症",
-                relationship: "",
-                details: "発熱38.2℃のため受診し、インフルエンザ感染と確定診断されました。",
-                startDate: "2026-10-21",
-                endDate: "2026-10-25",
-                courses: [
-                    { date: "2026-10-21", period: "1限目", name: "成人看護学概論" },
-                    { date: "2026-10-21", period: "2限目", name: "臨床生化学" },
-                    { date: "2026-10-21", period: "3限目", name: "看護研究方法論" }
-                ],
-                file: { name: "インフルエンザ診断書.pdf", size: "1.2 MB" },
-                status: "審査待ち",
-                adminComment: ""
-            }
-        ];
-
-        window.onload = function() {
-            // 学籍番号プレースホルダー設定
-            document.getElementById('studentId').placeholder = `例: ${sampleStudentId}`;
-
-            if (!localStorage.getItem('nursing_absence_notices')) {
-                localStorage.setItem('nursing_absence_notices', JSON.stringify(initialDemoData));
-            }
-
-            // 初期3枠（1限目〜3限目）の作成
-            initDefaultThreeCourses();
-
+        document.addEventListener('DOMContentLoaded', () => {
+            initCourseRows();
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('startDate').value = today;
             document.getElementById('endDate').value = today;
+            renderStudentHistory();
+            renderAdminList();
+        });
 
-            // 最初はデフォルトで「体調不良」を選択状態
-            const firstRadio = document.querySelector('input[name="absenceReasonCategory"][value="体調不良"]');
-            if (firstRadio) {
-                firstRadio.checked = true;
-                onReasonChange();
-            }
-
-            updateHistoryBadge();
-        };
-
-        function getNotices() {
-            return JSON.parse(localStorage.getItem('nursing_absence_notices') || '[]');
-        }
-
-        function saveNotices(notices) {
-            localStorage.setItem('nursing_absence_notices', JSON.stringify(notices));
-            updateHistoryBadge();
-        }
-
-        function updateHistoryBadge() {
-            const notices = getNotices();
-            const badge = document.getElementById('history-badge');
-            badge.innerText = notices.length;
-            if (notices.length > 0) badge.classList.remove('hidden');
-        }
-
-        // --- ビュー切替 ---
         function switchView(view) {
-            currentView = view;
             const studentView = document.getElementById('student-view');
             const adminView = document.getElementById('admin-view');
             const studentBtn = document.getElementById('nav-student-btn');
@@ -630,13 +523,13 @@
             if (view === 'student') {
                 studentView.classList.remove('hidden');
                 adminView.classList.add('hidden');
-                studentBtn.className = "px-3 py-1.5 rounded-lg font-medium transition-all duration-200 bg-white text-nursing-900 shadow";
-                adminBtn.className = "px-3 py-1.5 rounded-lg font-medium text-sky-100 hover:text-white transition-all duration-200";
+                studentBtn.className = 'px-3 py-1.5 rounded-lg font-medium transition-all duration-200 bg-white text-nursing-900 shadow';
+                adminBtn.className = 'px-3 py-1.5 rounded-lg font-medium text-sky-100 hover:text-white transition-all duration-200';
             } else {
                 studentView.classList.add('hidden');
                 adminView.classList.remove('hidden');
-                adminBtn.className = "px-3 py-1.5 rounded-lg font-medium transition-all duration-200 bg-white text-nursing-900 shadow";
-                studentBtn.className = "px-3 py-1.5 rounded-lg font-medium text-sky-100 hover:text-white transition-all duration-200";
+                adminBtn.className = 'px-3 py-1.5 rounded-lg font-medium transition-all duration-200 bg-white text-nursing-900 shadow';
+                studentBtn.className = 'px-3 py-1.5 rounded-lg font-medium text-sky-100 hover:text-white transition-all duration-200';
                 renderAdminList();
             }
         }
@@ -650,242 +543,237 @@
             if (tab === 'form') {
                 formContainer.classList.remove('hidden');
                 historyContainer.classList.add('hidden');
-                formBtn.className = "pb-3 px-4 font-bold text-nursing-800 border-b-2 border-nursing-800 flex items-center gap-2";
-                historyBtn.className = "pb-3 px-4 font-medium text-slate-500 hover:text-nursing-800 border-b-2 border-transparent flex items-center gap-2";
+                formBtn.className = 'pb-3 px-4 font-bold text-nursing-800 border-b-2 border-nursing-800 flex items-center gap-2';
+                historyBtn.className = 'pb-3 px-4 font-medium text-slate-500 hover:text-nursing-800 border-b-2 border-transparent flex items-center gap-2';
             } else {
                 formContainer.classList.add('hidden');
                 historyContainer.classList.remove('hidden');
-                historyBtn.className = "pb-3 px-4 font-bold text-nursing-800 border-b-2 border-nursing-800 flex items-center gap-2";
-                formBtn.className = "pb-3 px-4 font-medium text-slate-500 hover:text-nursing-800 border-b-2 border-transparent flex items-center gap-2";
+                historyBtn.className = 'pb-3 px-4 font-bold text-nursing-800 border-b-2 border-nursing-800 flex items-center gap-2';
+                formBtn.className = 'pb-3 px-4 font-medium text-slate-500 hover:text-nursing-800 border-b-2 border-transparent flex items-center gap-2';
                 renderStudentHistory();
             }
         }
 
-        // --- 初期3コマ追加 ---
-        function initDefaultThreeCourses() {
-            const tbody = document.getElementById('courses-table-body');
-            tbody.innerHTML = '';
-            for (let i = 1; i <= 3; i++) {
-                addCourseRow({ period: `${i}限目` });
-            }
-        }
-
-        // --- 理由切り替え時の処理 ---
         function onReasonChange() {
-            const selectedReason = document.querySelector('input[name="absenceReasonCategory"]:checked')?.value;
-            const bereavementSection = document.getElementById('bereavement-section');
+            const category = document.querySelector('input[name="absenceReasonCategory"]:checked')?.value;
+            const bereaveSec = document.getElementById('bereavement-section');
+            const fileSec = document.getElementById('evidence-file-section');
+            const fileBadge = document.getElementById('file-required-badge');
+            const fileExText = document.getElementById('file-example-text');
             const reasonDetailsContainer = document.getElementById('reason-details-container');
-            const fileSection = document.getElementById('evidence-file-section');
-            const fileExampleText = document.getElementById('file-example-text');
 
-            if (selectedReason === '忌引き') {
-                bereavementSection.classList.remove('hidden');
-                document.getElementById('relationship').required = true;
+            if (category === '忌引き') {
+                bereaveSec.classList.remove('hidden');
+                fileSec.classList.remove('hidden');
+                fileBadge.className = "text-xs px-2.5 py-0.5 rounded font-bold bg-rose-100 text-rose-700";
+                fileBadge.textContent = "必須";
+                fileExText.textContent = "会葬礼状、死亡診断書、訃報の写し等（スマホ写真可）";
                 reasonDetailsContainer.classList.add('hidden');
-                document.getElementById('reasonDetails').required = false;
-            } else {
-                bereavementSection.classList.add('hidden');
-                document.getElementById('relationship').required = false;
+            } else if (category === '学校保健安全法の指定感染症') {
+                bereaveSec.classList.add('hidden');
+                fileSec.classList.remove('hidden');
+                fileBadge.className = "text-xs px-2.5 py-0.5 rounded font-bold bg-rose-100 text-rose-700";
+                fileBadge.textContent = "必須";
+                fileExText.textContent = "診断書、調剤明細書、インフル・コロナ検査結果通知書等";
                 reasonDetailsContainer.classList.remove('hidden');
-                document.getElementById('reasonDetails').required = true;
-            }
-
-            if (selectedReason === '体調不良') {
-                fileSection.classList.add('hidden');
-                removeAttachedFile();
             } else {
-                fileSection.classList.remove('hidden');
-                if (selectedReason === '学校保健安全法の指定感染症') {
-                    fileExampleText.innerText = "指定感染症の証明書類の例：診断書、調剤明細書等";
-                } else if (selectedReason === '忌引き') {
-                    fileExampleText.innerText = "忌引きの証明書類の例：会葬礼状、死亡診断書等";
-                }
+                bereaveSec.classList.add('hidden');
+                fileSec.classList.remove('hidden');
+                fileBadge.className = "text-xs px-2.5 py-0.5 rounded font-bold bg-slate-100 text-slate-600";
+                fileBadge.textContent = "任意";
+                fileExText.textContent = "体調不良の場合、受診領収書等があれば任意で添付してください。";
+                reasonDetailsContainer.classList.remove('hidden');
             }
         }
 
         function updateBereavementGuide() {
             const rel = document.getElementById('relationship').value;
-            const guideContainer = document.getElementById('bereavement-guide');
+            const guide = document.getElementById('bereavement-guide');
             const badge = document.getElementById('bereavement-days-badge');
             const title = document.getElementById('bereavement-guide-title');
             const text = document.getElementById('bereavement-guide-text');
 
-            if (rel && bereavementRules[rel]) {
-                const info = bereavementRules[rel];
-                badge.innerText = info.badge;
-                title.innerText = info.title;
-                text.innerText = info.text;
-                guideContainer.classList.remove('hidden');
-            } else {
-                guideContainer.classList.add('hidden');
+            if (!rel) {
+                guide.classList.add('hidden');
+                return;
+            }
+
+            guide.classList.remove('hidden');
+
+            if (rel === '配偶者' || rel === '1親等') {
+                badge.textContent = "最大7日間";
+                title.textContent = "【1親等・配偶者】 父母・配偶者・子";
+                text.textContent = "大学規程により、死亡した日から連続して最大7日間の公欠が認められます。";
+            } else if (rel === '2親等') {
+                badge.textContent = "最大3日間";
+                title.textContent = "【2親等】 祖父母・兄弟姉妹・孫";
+                text.textContent = "大学規程により、死亡した日から連続して最大3日間の公欠が認められます。";
+            } else if (rel === '3親等') {
+                badge.textContent = "最大1日間";
+                title.textContent = "【3親等】 叔父叔母、曽祖父母、甥姪など";
+                text.textContent = "大学規程により、死亡した当日に限り1日間の公欠が認められます。";
             }
         }
 
-        // --- 授業コマ行追加 (教員名列を削除) ---
-        function addCourseRow(data = {}) {
+        function initCourseRows() {
             const tbody = document.getElementById('courses-table-body');
-            const rowId = 'course-row-' + Date.now() + Math.random().toString(36).substr(2, 4);
-            const startDateVal = document.getElementById('startDate')?.value || new Date().toISOString().split('T')[0];
+            tbody.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                addCourseRow();
+            }
+        }
 
+        function addCourseRow() {
+            const tbody = document.getElementById('courses-table-body');
+            const rowCount = tbody.children.length + 1;
             const tr = document.createElement('tr');
-            tr.id = rowId;
             tr.className = "hover:bg-slate-50 transition";
+            const today = new Date().toISOString().split('T')[0];
+
             tr.innerHTML = `
-                <td class="p-2">
-                    <input type="date" value="${data.date || startDateVal}" class="course-date w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-1 focus:ring-nursing-500 focus:outline-none">
+                <td class="px-3 py-2">
+                    <input type="date" value="${today}" class="course-date w-full px-2 py-1 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-nursing-500">
                 </td>
-                <td class="p-2">
-                    <select class="course-period w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-1 focus:ring-nursing-500 focus:outline-none bg-white font-medium">
-                        <option value="1限目" ${data.period==='1限目'?'selected':''}>1限目</option>
-                        <option value="2限目" ${data.period==='2限目'?'selected':''}>2限目</option>
-                        <option value="3限目" ${data.period==='3限目'?'selected':''}>3限目</option>
-                        <option value="4限目" ${data.period==='4限目'?'selected':''}>4限目</option>
-                        <option value="5限目" ${data.period==='5限目'?'selected':''}>5限目</option>
+                <td class="px-3 py-2">
+                    <select class="course-period w-full px-2 py-1 border border-slate-300 rounded text-xs bg-white focus:ring-1 focus:ring-nursing-500">
+                        <option value="1時限">1時限 (09:00~)</option>
+                        <option value="2時限">2時限 (10:40~)</option>
+                        <option value="3時限">3時限 (13:00~)</option>
+                        <option value="4時限">4時限 (14:40~)</option>
+                        <option value="5時限">5時限 (16:20~)</option>
+                        <option value="終日">終日 (1~5時限)</option>
                     </select>
                 </td>
-                <td class="p-2">
-                    <input type="text" value="${data.name || ''}" placeholder="例: 成人看護学概論" class="course-name w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-1 focus:ring-nursing-500 focus:outline-none">
+                <td class="px-3 py-2">
+                    <input type="text" placeholder="例: 成人看護学概論" class="course-name w-full px-2 py-1 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-nursing-500">
                 </td>
-                <td class="p-2 text-center">
-                    <button type="button" onclick="removeCourseRow('${rowId}')" class="text-slate-400 hover:text-rose-500 transition p-1">
-                        <i class="fa-solid fa-trash-can"></i>
+                <td class="px-3 py-2 text-center">
+                    <button type="button" onclick="this.closest('tr').remove()" class="text-slate-400 hover:text-rose-500 p-1">
+                        <i class="fa-solid fa-xmark"></i>
                     </button>
                 </td>
             `;
             tbody.appendChild(tr);
         }
 
-        function removeCourseRow(rowId) {
-            const row = document.getElementById(rowId);
-            if (row) row.remove();
-        }
-
-        // --- ファイル選択 ---
         function handleFileSelect(e) {
             const file = e.target.files[0];
             if (!file) return;
 
-            currentAttachedFile = {
-                name: file.name,
-                size: (file.size / (1024 * 1024)).toFixed(2) + ' MB'
-            };
-
-            document.getElementById('file-name').innerText = file.name;
-            document.getElementById('file-size').innerText = currentAttachedFile.size;
-            document.getElementById('file-preview-area').classList.remove('hidden');
-
-            const icon = document.getElementById('file-icon');
-            if(file.type.includes('image')) {
-                icon.className = "fa-solid fa-file-image text-sky-600 text-2xl";
-            } else {
-                icon.className = "fa-solid fa-file-pdf text-rose-500 text-2xl";
+            if (file.size > 10 * 1024 * 1024) {
+                alert('ファイルサイズは10MB以下にしてください。');
+                return;
             }
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                currentFileObj = {
+                    name: file.name,
+                    size: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
+                    data: evt.target.result,
+                    type: file.type
+                };
+                document.getElementById('file-name').textContent = currentFileObj.name;
+                document.getElementById('file-size').textContent = currentFileObj.size;
+                document.getElementById('file-preview-area').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
         }
 
         function removeAttachedFile() {
-            currentAttachedFile = null;
-            document.getElementById('file-input').value = "";
+            currentFileObj = null;
+            document.getElementById('file-input').value = '';
             document.getElementById('file-preview-area').classList.add('hidden');
         }
 
-        // --- フォームデータ取得とレビューモーダル表示 ---
         function getFormData() {
-            const studentGrade = document.getElementById('studentGrade').value;
-            const studentId = document.getElementById('studentId').value.trim();
-            const studentName = document.getElementById('studentName').value.trim();
-            const reasonCategory = document.querySelector('input[name="absenceReasonCategory"]:checked')?.value;
+            const grade = document.getElementById('studentGrade').value;
+            const studentId = document.getElementById('studentId').value;
+            const name = document.getElementById('studentName').value;
+            const category = document.querySelector('input[name="absenceReasonCategory"]:checked')?.value;
             const relationship = document.getElementById('relationship').value;
-            const details = document.getElementById('reasonDetails').value.trim();
+            const reasonDetails = document.getElementById('reasonDetails').value;
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
 
+            const courseRows = document.querySelectorAll('#courses-table-body tr');
             const courses = [];
-            document.querySelectorAll('#courses-table-body tr').forEach(row => {
-                const date = row.querySelector('.course-date').value;
-                const period = row.querySelector('.course-period').value;
-                const name = row.querySelector('.course-name').value.trim();
-                if (name) {
-                    courses.push({ date, period, name });
+            courseRows.forEach(row => {
+                const date = row.querySelector('.course-date')?.value;
+                const period = row.querySelector('.course-period')?.value;
+                const cName = row.querySelector('.course-name')?.value;
+                if (cName && cName.trim() !== '') {
+                    courses.push({ date, period, name: cName });
                 }
             });
 
-            return { studentGrade, studentId, studentName, reasonCategory, relationship, details, startDate, endDate, courses };
+            return { grade, studentId, name, category, relationship, reasonDetails, startDate, endDate, courses };
         }
 
         function showConfirmModal() {
             const data = getFormData();
 
-            if (!data.studentGrade || !data.studentId || !data.studentName) {
-                showToast("学生基本情報を入力してください", "error");
+            if (!data.grade || !data.studentId || !data.name) {
+                alert('学年、学籍番号、氏名を入力してください。');
                 return;
             }
-            if (!data.reasonCategory) {
-                showToast("欠席理由の選択を行ってください", "error");
+            if (!data.category) {
+                alert('欠席理由（カテゴリ）を選択してください。');
                 return;
             }
-            if (data.reasonCategory === '忌引き' && !data.relationship) {
-                showToast("故人との続柄を選択してください", "error");
+            if (data.category === '忌引き' && !data.relationship) {
+                alert('故人との続柄を選択してください。');
                 return;
             }
-            if (data.reasonCategory !== '忌引き' && !data.details) {
-                showToast("具体的事由・補足説明を入力してください", "error");
+            if (data.category !== '忌引き' && (!data.reasonDetails || data.reasonDetails.trim() === '')) {
+                alert('具体的事由・補足説明を入力してください。');
                 return;
             }
-            if (!data.startDate || !data.endDate) {
-                showToast("欠席期間を入力してください", "error");
+            if (data.category !== '体調不良' && !currentFileObj) {
+                alert('公欠申請には根拠資料（証明書等）の添付が必須です。');
                 return;
             }
+
+            let coursesHtml = '';
             if (data.courses.length === 0) {
-                showToast("欠席した授業科目名を1つ以上入力してください", "error");
-                return;
-            }
-            if ((data.reasonCategory === '学校保健安全法の指定感染症' || data.reasonCategory === '忌引き') && !currentAttachedFile) {
-                showToast("指定感染症または忌引きの場合は根拠資料の添付が必須です", "error");
-                return;
+                coursesHtml = '<p class="text-slate-400 italic">（登録された授業科目はありません）</p>';
+            } else {
+                coursesHtml = '<ul class="list-disc pl-5 space-y-1">';
+                data.courses.forEach(c => {
+                    coursesHtml += `<li><strong>${c.date} ${c.period}</strong>: ${c.name}</li>`;
+                });
+                coursesHtml += '</ul>';
             }
 
-            let courseHtml = `<div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5">`;
-            data.courses.forEach(c => {
-                courseHtml += `<div class="text-xs text-slate-700 flex items-center justify-between"><span>・${c.date} [${c.period}]</span> <span class="font-bold text-nursing-900">${c.name}</span></div>`;
-            });
-            courseHtml += `</div>`;
-
-            const content = `
-                <div class="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-3 rounded-xl border border-slate-200">
-                    <div><span class="text-slate-400">学年:</span> <span class="font-bold text-slate-800">${data.studentGrade}</span></div>
-                    <div><span class="text-slate-400">学籍番号:</span> <span class="font-bold text-slate-800">${data.studentId}</span></div>
-                    <div class="col-span-2"><span class="text-slate-400">氏名:</span> <span class="font-bold text-slate-800">${data.studentName}</span></div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="bg-sky-50/60 p-3 rounded-xl border border-sky-100">
-                        <span class="text-slate-400 text-xs block mb-1">欠席理由:</span>
-                        <span class="font-bold text-nursing-900 text-sm">${data.reasonCategory} ${data.relationship ? `(${data.relationship})` : ''}</span>
+            const html = `
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div><span class="text-slate-500">学年・学籍番号:</span> <span class="font-bold text-slate-800">${data.grade} / ${data.studentId}</span></div>
+                        <div><span class="text-slate-500">氏名:</span> <span class="font-bold text-slate-800">${data.name}</span></div>
                     </div>
-                    <div class="bg-sky-50/60 p-3 rounded-xl border border-sky-100">
-                        <span class="text-slate-400 text-xs block mb-1">欠席期間:</span>
-                        <p class="font-bold text-slate-800 text-sm">${data.startDate} 〜 ${data.endDate}</p>
+                    <hr class="border-slate-200">
+                    <div>
+                        <span class="text-slate-500 text-xs">欠席区分:</span> 
+                        <span class="font-bold text-nursing-900 ml-1">${data.category}</span>
+                        ${data.relationship ? `<span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold ml-2">${data.relationship}</span>` : ''}
                     </div>
-                </div>
-                ${data.reasonCategory !== '忌引き' ? `
-                <div>
-                    <span class="text-slate-500 text-xs block mb-1">具体的事由:</span>
-                    <p class="bg-slate-50 p-3 rounded-xl text-xs text-slate-800 border border-slate-200 whitespace-pre-wrap">${data.details}</p>
-                </div>
-                ` : ''}
-                <div>
-                    <span class="text-slate-500 text-xs mb-1 block">欠席授業対象 (${data.courses.length}件):</span>
-                    ${courseHtml}
-                </div>
-                <div>
-                    <span class="text-slate-500 text-xs block mb-1">添付根拠資料:</span>
-                    <p class="text-xs font-semibold text-nursing-800 flex items-center gap-1.5">
-                        <i class="fa-solid fa-paperclip"></i>
-                        ${currentAttachedFile ? `${currentAttachedFile.name} (${currentAttachedFile.size})` : 'なし（添付不要の区分）'}
-                    </p>
+                    ${data.reasonDetails ? `<p class="text-xs text-slate-700 bg-white p-2.5 rounded border border-slate-200"><strong>理由補足:</strong> ${data.reasonDetails}</p>` : ''}
+                    <div>
+                        <span class="text-slate-500 text-xs">欠席期間:</span> 
+                        <span class="font-bold text-slate-800 ml-1">${data.startDate} 〜 ${data.endDate}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 text-xs block mb-1">対象授業科目:</span>
+                        <div class="text-xs text-slate-700 bg-white p-2.5 rounded border border-slate-200">${coursesHtml}</div>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 text-xs">添付証明書:</span> 
+                        ${currentFileObj ? `<span class="text-xs font-bold text-emerald-600"><i class="fa-solid fa-file-check mr-1"></i>${currentFileObj.name} (${currentFileObj.size})</span>` : '<span class="text-xs text-slate-400">なし</span>'}
+                    </div>
                 </div>
             `;
 
-            document.getElementById('modal-confirm-content').innerHTML = content;
+            document.getElementById('modal-confirm-content').innerHTML = html;
             document.getElementById('confirm-modal').classList.remove('hidden');
         }
 
@@ -893,70 +781,82 @@
             document.getElementById('confirm-modal').classList.add('hidden');
         }
 
-        // --- 送信実行 ---
         function submitNotice() {
-            const formData = getFormData();
+            const data = getFormData();
             const now = new Date();
-            const submittedAt = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-            const noticeId = "FNU-" + Date.now().toString().substr(-8);
+            const timeStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
 
-            const newNotice = {
-                id: noticeId,
-                submittedAt: submittedAt,
-                ...formData,
-                file: currentAttachedFile,
-                status: "審査待ち",
-                adminComment: ""
+            const record = {
+                id: Date.now(),
+                createdAt: timeStr,
+                grade: data.grade,
+                studentId: data.studentId,
+                name: data.name,
+                category: data.category,
+                relationship: data.relationship,
+                reasonDetails: data.reasonDetails,
+                startDate: data.startDate,
+                endDate: data.endDate,
+                courses: data.courses,
+                file: currentFileObj,
+                status: '審査待ち',
+                adminComment: ''
             };
 
-            const notices = getNotices();
-            notices.unshift(newNotice);
-            saveNotices(notices);
+            db.unshift(record);
+            localStorage.setItem('fcn_absence_records_v2', JSON.stringify(db));
 
             closeConfirmModal();
+            alert('欠席届のWEB申請が正常に完了しました！');
             resetForm();
-            showToast("欠席届を受け付けました", "success");
             switchStudentTab('history');
         }
 
         function resetForm() {
             document.getElementById('absence-form').reset();
-            initDefaultThreeCourses();
             removeAttachedFile();
-            const firstRadio = document.querySelector('input[name="absenceReasonCategory"][value="体調不良"]');
-            if (firstRadio) firstRadio.checked = true;
-            onReasonChange();
+            initCourseRows();
+            document.getElementById('bereavement-section').classList.add('hidden');
+            document.getElementById('bereavement-guide').classList.add('hidden');
+            document.getElementById('reason-details-container').classList.remove('hidden');
         }
 
-        // --- 学生用履歴レンダリング ---
         function renderStudentHistory() {
-            const notices = getNotices();
             const tbody = document.getElementById('student-history-tbody');
+            const badge = document.getElementById('history-badge');
             tbody.innerHTML = '';
 
-            if (notices.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400">提出済みの欠席届データはありません</td></tr>`;
+            badge.textContent = db.length;
+            if (db.length > 0) badge.classList.remove('hidden');
+
+            if (db.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-slate-400">提出済みの申請データはありません。</td></tr>`;
                 return;
             }
 
-            notices.forEach(n => {
+            db.forEach(item => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 border-b border-slate-200 transition";
+                tr.className = "hover:bg-slate-50 transition";
+
+                let statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800"><i class="fa-solid fa-hourglass-half mr-1"></i>審査待ち</span>';
+                if (item.status === '公欠認定') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800"><i class="fa-solid fa-certificate mr-1"></i>公欠認定</span>';
+                if (item.status === '一般欠席承認') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700"><i class="fa-solid fa-user-check mr-1"></i>一般欠席</span>';
+                if (item.status === '要確認（差戻し）') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800"><i class="fa-solid fa-circle-exclamation mr-1"></i>要確認</span>';
 
                 tr.innerHTML = `
-                    <td class="px-4 py-3 text-xs text-slate-500">${n.submittedAt}</td>
-                    <td class="px-4 py-3 font-medium text-slate-800 text-xs">${n.startDate} <span class="text-slate-400">~</span> ${n.endDate}</td>
-                    <td class="px-4 py-3 text-xs text-slate-700">
-                        ${n.reasonCategory}
-                        ${n.relationship ? `<span class="text-slate-400">(${n.relationship})</span>` : ''}
+                    <td class="px-4 py-3 text-xs text-slate-500">${item.createdAt}</td>
+                    <td class="px-4 py-3 text-xs font-bold text-slate-800">${item.startDate} ~ ${item.endDate}</td>
+                    <td class="px-4 py-3 text-xs">
+                        <span class="font-bold text-nursing-900">${item.category}</span>
+                        ${item.relationship ? `<span class="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold ml-1">${item.relationship}</span>` : ''}
                     </td>
                     <td class="px-4 py-3 text-xs">
-                        ${n.file ? `<span class="text-nursing-800 font-medium"><i class="fa-solid fa-paperclip"></i> あり</span>` : `<span class="text-slate-400">なし</span>`}
+                        ${item.file ? `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-file-medical mr-1"></i>添付あり</span>` : '<span class="text-slate-400">なし</span>'}
                     </td>
-                    <td class="px-4 py-3">${getStatusBadge(n.status)}</td>
+                    <td class="px-4 py-3 text-xs">${statusBadge}</td>
                     <td class="px-4 py-3 text-center">
-                        <button onclick="openDetailModal('${n.id}')" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs rounded-lg transition font-medium">
-                            レビュー閲覧
+                        <button onclick="openDetailModal(${item.id})" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-nursing-800 rounded-lg text-xs font-bold transition">
+                            詳細確認
                         </button>
                     </td>
                 `;
@@ -964,52 +864,57 @@
             });
         }
 
-        // --- 教員用ポータルレンダリング ---
         function renderAdminList() {
-            const notices = getNotices();
-            updateAdminStats(notices);
-
-            const searchKey = document.getElementById('admin-search').value.toLowerCase();
-            const filterStatus = document.getElementById('admin-filter-status').value;
-
-            const filtered = notices.filter(n => {
-                const matchSearch = n.studentId.toLowerCase().includes(searchKey) ||
-                                    n.studentName.toLowerCase().includes(searchKey) ||
-                                    n.courses.some(c => c.name.toLowerCase().includes(searchKey));
-                const matchStatus = (filterStatus === 'ALL') || (n.status === filterStatus);
-                return matchSearch && matchStatus;
-            });
-
             const tbody = document.getElementById('admin-tbody');
             tbody.innerHTML = '';
 
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-slate-400">該当するデータが見つかりません</td></tr>`;
+            let pendingCount = 0;
+            let approvedCount = 0;
+            let generalCount = 0;
+
+            db.forEach(item => {
+                if (item.status === '審査待ち') pendingCount++;
+                if (item.status === '公欠認定') approvedCount++;
+                if (item.status === '一般欠席承認') generalCount++;
+            });
+
+            document.getElementById('stat-total').textContent = db.length;
+            document.getElementById('stat-pending').textContent = pendingCount;
+            document.getElementById('stat-approved').textContent = approvedCount;
+            document.getElementById('stat-general').textContent = generalCount;
+
+            if (db.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="px-4 py-6 text-center text-slate-400">欠席届データが登録されていません。</td></tr>`;
                 return;
             }
 
-            filtered.forEach(n => {
+            db.forEach(item => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 border-b border-slate-200 transition";
+                tr.className = "hover:bg-slate-50 transition admin-row";
+                tr.setAttribute('data-search', `${item.studentId} ${item.name} ${item.category} ${JSON.stringify(item.courses)}`.toLowerCase());
+                tr.setAttribute('data-status', item.status);
+
+                let statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">審査待ち</span>';
+                if (item.status === '公欠認定') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">公欠認定</span>';
+                if (item.status === '一般欠席承認') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700">一般欠席</span>';
+                if (item.status === '要確認（差戻し）') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800">要確認</span>';
 
                 tr.innerHTML = `
-                    <td class="px-4 py-3 text-xs text-slate-500">${n.submittedAt}</td>
-                    <td class="px-4 py-3 font-mono text-xs">
-                        <span class="font-bold text-nursing-800">${n.studentId}</span>
-                        <span class="text-slate-400 ml-1">(${n.studentGrade})</span>
-                    </td>
-                    <td class="px-4 py-3 font-medium text-slate-800">${n.studentName}</td>
-                    <td class="px-4 py-3 text-xs text-slate-700">
-                        ${n.reasonCategory}
-                    </td>
-                    <td class="px-4 py-3 text-xs text-slate-600">${n.startDate} ~ ${n.endDate}</td>
+                    <td class="px-4 py-3 text-xs text-slate-500">${item.createdAt}</td>
+                    <td class="px-4 py-3 text-xs font-bold text-slate-800">${item.grade} / ${item.studentId}</td>
+                    <td class="px-4 py-3 text-xs font-bold text-nursing-900">${item.name}</td>
                     <td class="px-4 py-3 text-xs">
-                        ${n.file ? `<span class="text-nursing-800 font-bold"><i class="fa-solid fa-paperclip"></i> あり</span>` : `<span class="text-slate-400">なし</span>`}
+                        <span class="font-bold text-slate-800">${item.category}</span>
+                        ${item.relationship ? `<span class="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold block w-fit mt-0.5">${item.relationship}</span>` : ''}
                     </td>
-                    <td class="px-4 py-3">${getStatusBadge(n.status)}</td>
+                    <td class="px-4 py-3 text-xs text-slate-700">${item.startDate}<br>〜 ${item.endDate}</td>
+                    <td class="px-4 py-3 text-xs">
+                        ${item.file ? `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-file-medical mr-1"></i>添付あり</span>` : '<span class="text-slate-400">なし</span>'}
+                    </td>
+                    <td class="px-4 py-3 text-xs">${statusBadge}</td>
                     <td class="px-4 py-3 text-center">
-                        <button onclick="openDetailModal('${n.id}')" class="px-3 py-1 bg-nursing-800 text-white hover:bg-nursing-900 text-xs rounded-lg transition shadow-sm font-medium">
-                            詳細・審査
+                        <button onclick="openDetailModal(${item.id})" class="px-3 py-1.5 bg-nursing-800 hover:bg-nursing-900 text-white rounded-lg text-xs font-bold transition shadow-sm">
+                            審査・詳細
                         </button>
                     </td>
                 `;
@@ -1017,306 +922,160 @@
             });
         }
 
-        function updateAdminStats(notices) {
-            document.getElementById('stat-total').innerText = notices.length;
-            document.getElementById('stat-pending').innerText = notices.filter(n => n.status === '審査待ち').length;
-            document.getElementById('stat-approved').innerText = notices.filter(n => n.status === '公欠認定').length;
-            document.getElementById('stat-general').innerText = notices.filter(n => n.status === '一般欠席承認').length;
-        }
-
-        function filterAdminList() {
-            renderAdminList();
-        }
-
-        function getStatusBadge(status) {
-            switch(status) {
-                case '公欠認定':
-                    return `<span class="px-2.5 py-1 text-xs font-bold bg-emerald-100 text-emerald-800 rounded-full inline-flex items-center gap-1"><i class="fa-solid fa-certificate"></i> 公欠認定</span>`;
-                case '一般欠席承認':
-                    return `<span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-full inline-flex items-center gap-1"><i class="fa-solid fa-user-check"></i> 一般欠席</span>`;
-                case '審査待ち':
-                    return `<span class="px-2.5 py-1 text-xs font-bold bg-amber-100 text-amber-800 rounded-full inline-flex items-center gap-1"><i class="fa-solid fa-clock"></i> 審査待ち</span>`;
-                case '要確認（差戻し）':
-                    return `<span class="px-2.5 py-1 text-xs font-bold bg-rose-100 text-rose-800 rounded-full inline-flex items-center gap-1"><i class="fa-solid fa-triangle-exclamation"></i> 差戻し要確認</span>`;
-                default:
-                    return `<span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-full">${status}</span>`;
-            }
-        }
-
-        // --- 詳細・レビューモーダル表示 ---
         function openDetailModal(id) {
-            currentEditingId = id;
-            const notices = getNotices();
-            const notice = notices.find(n => n.id === id);
-            if(!notice) return;
+            selectedRecordId = id;
+            const item = db.find(x => x.id === id);
+            if (!item) return;
 
-            document.getElementById('detail-modal-status-badge').innerHTML = getStatusBadge(notice.status);
+            let statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">審査待ち</span>';
+            if (item.status === '公欠認定') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">公欠認定</span>';
+            if (item.status === '一般欠席承認') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700">一般欠席</span>';
+            if (item.status === '要確認（差戻し）') statusBadge = '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800">要確認</span>';
 
-            let courseRows = notice.courses.map(c => `
-                <tr class="border-b border-slate-100 text-xs">
-                    <td class="p-2.5">${c.date}</td>
-                    <td class="p-2.5 font-bold text-nursing-800">${c.period}</td>
-                    <td class="p-2.5 font-medium text-slate-800">${c.name}</td>
-                </tr>
-            `).join('');
+            document.getElementById('detail-modal-status-badge').innerHTML = statusBadge;
+            document.getElementById('admin-comment').value = item.adminComment || '';
 
-            const bodyContent = `
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-                    <div>
-                        <span class="text-slate-400 block">学年</span>
-                        <span class="font-bold text-slate-800 text-sm">${notice.studentGrade}</span>
-                    </div>
-                    <div>
-                        <span class="text-slate-400 block">学籍番号</span>
-                        <span class="font-bold text-nursing-900 text-sm">${notice.studentId}</span>
-                    </div>
-                    <div>
-                        <span class="text-slate-400 block">氏名</span>
-                        <span class="font-bold text-slate-800 text-sm">${notice.studentName}</span>
-                    </div>
-                    <div>
-                        <span class="text-slate-400 block">申請日時</span>
-                        <span class="text-slate-600">${notice.submittedAt}</span>
-                    </div>
+            let coursesHtml = '';
+            if (item.courses && item.courses.length > 0) {
+                coursesHtml = '<ul class="divide-y divide-slate-100">';
+                item.courses.forEach(c => {
+                    coursesHtml += `<li class="py-1.5 text-xs flex justify-between"><span><strong>${c.date} (${c.period})</strong> : ${c.name}</span></li>`;
+                });
+                coursesHtml += '</ul>';
+            } else {
+                coursesHtml = '<p class="text-xs text-slate-400">（登録授業なし）</p>';
+            }
+
+            let fileHtml = '<p class="text-xs text-slate-400">証明書類の添付はありません。</p>';
+            if (item.file) {
+                if (item.file.type && item.file.type.startsWith('image/')) {
+                    fileHtml = `
+                        <div class="space-y-2">
+                            <p class="text-xs font-bold text-emerald-600"><i class="fa-solid fa-file-image mr-1"></i>${item.file.name} (${item.file.size})</p>
+                            <img src="${item.file.data}" alt="証明書" class="max-h-60 rounded-lg border border-slate-200 shadow-sm object-contain">
+                        </div>
+                    `;
+                } else {
+                    fileHtml = `
+                        <div class="flex items-center justify-between p-3 bg-slate-100 rounded-xl">
+                            <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-file-pdf text-rose-500 mr-2 text-base"></i>${item.file.name}</span>
+                            <a href="${item.file.data}" download="${item.file.name}" class="px-3 py-1 bg-nursing-800 text-white text-xs rounded-lg font-bold">ダウンロード</a>
+                        </div>
+                    `;
+                }
+            }
+
+            const bodyHtml = `
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+                    <div><span class="text-slate-500">申請者名:</span> <span class="font-bold text-slate-900 text-sm ml-1">${item.name}</span> (${item.grade} / ${item.studentId})</div>
+                    <div><span class="text-slate-500">申請日時:</span> <span class="font-medium text-slate-700 ml-1">${item.createdAt}</span></div>
+                    <div><span class="text-slate-500">欠席理由:</span> <span class="font-bold text-nursing-900 ml-1">${item.category}</span> ${item.relationship ? `(${item.relationship})` : ''}</div>
+                    <div><span class="text-slate-500">欠席期間:</span> <span class="font-bold text-slate-800 ml-1">${item.startDate} 〜 ${item.endDate}</span></div>
                 </div>
 
-                <div class="space-y-3">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-white p-3.5 rounded-xl border border-slate-200">
-                            <span class="text-xs font-bold text-slate-500 block mb-1">欠席理由</span>
-                            <span class="text-sm font-bold text-nursing-900">${notice.reasonCategory}</span>
-                            ${notice.relationship ? `<p class="text-xs text-amber-900 mt-1 font-semibold">続柄: ${notice.relationship}</p>` : ''}
-                        </div>
-                        <div class="bg-white p-3.5 rounded-xl border border-slate-200">
-                            <span class="text-xs font-bold text-slate-500 block mb-1">欠席期間</span>
-                            <span class="text-sm font-bold text-nursing-900">${notice.startDate} 〜 ${notice.endDate}</span>
-                        </div>
-                    </div>
-
-                    ${notice.details ? `
+                ${item.reasonDetails ? `
                     <div>
-                        <span class="text-xs font-bold text-slate-500 block mb-1">具体的事由</span>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-800 leading-relaxed whitespace-pre-wrap">${notice.details}</div>
+                        <h4 class="text-xs font-bold text-slate-700 mb-1">具体的事由・補足</h4>
+                        <p class="text-xs bg-white p-3 rounded-xl border border-slate-200 text-slate-700">${item.reasonDetails}</p>
                     </div>
-                    ` : ''}
+                ` : ''}
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-700 mb-1">欠席授業科目一覧</h4>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">${coursesHtml}</div>
                 </div>
 
                 <div>
-                    <h4 class="text-xs font-bold text-slate-700 mb-2">欠席授業一覧 (${notice.courses.length}件)</h4>
-                    <div class="border border-slate-200 rounded-xl overflow-hidden">
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-100 text-[11px] text-slate-600 uppercase">
-                                <tr>
-                                    <th class="p-2.5">日付</th>
-                                    <th class="p-2.5">時限</th>
-                                    <th class="p-2.5">授業科目名</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white">
-                                ${courseRows}
-                            </tbody>
-                        </table>
-                    </div>
+                    <h4 class="text-xs font-bold text-slate-700 mb-1">添付根拠資料（証明書）</h4>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">${fileHtml}</div>
                 </div>
 
-                <div>
-                    <h4 class="text-xs font-bold text-slate-700 mb-1">添付根拠資料</h4>
-                    ${notice.file ? `
-                        <div class="flex items-center space-x-2 text-xs p-3 bg-sky-50 rounded-xl border border-sky-200 w-fit">
-                            <i class="fa-solid fa-file-medical text-nursing-800 text-lg"></i>
-                            <span class="font-bold text-nursing-900">${notice.file.name}</span>
-                            <span class="text-slate-400">(${notice.file.size})</span>
-                        </div>
-                    ` : `<p class="text-xs text-slate-400">添付ファイルなし（体調不良等）</p>`}
-                </div>
-
-                ${notice.adminComment ? `
-                    <div class="bg-amber-50 p-3.5 rounded-xl border border-amber-200">
-                        <span class="text-xs font-bold text-amber-900 block mb-1">教員・学務指示コメント</span>
-                        <p class="text-xs text-amber-900 leading-relaxed">${notice.adminComment}</p>
+                ${item.adminComment ? `
+                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs">
+                        <span class="font-bold text-amber-900 block mb-0.5">教員・学務指示コメント:</span>
+                        <p class="text-amber-950">${item.adminComment}</p>
                     </div>
                 ` : ''}
             `;
 
-            document.getElementById('detail-modal-body').innerHTML = bodyContent;
-
-            const adminActionSection = document.getElementById('admin-action-section');
-            if (currentView === 'admin') {
-                adminActionSection.classList.remove('hidden');
-                document.getElementById('admin-comment').value = notice.adminComment || '';
-            } else {
-                adminActionSection.classList.add('hidden');
-            }
-
+            document.getElementById('detail-modal-body').innerHTML = bodyHtml;
             document.getElementById('detail-modal').classList.remove('hidden');
         }
 
         function closeDetailModal() {
             document.getElementById('detail-modal').classList.add('hidden');
-            currentEditingId = null;
+            selectedRecordId = null;
         }
 
-        // --- ステータス更新 ---
-        function updateNoticeStatus(newStatus) {
-            if(!currentEditingId) return;
-            const comment = document.getElementById('admin-comment').value.trim();
+        function updateStatus(newStatus) {
+            if (!selectedRecordId) return;
+            const comment = document.getElementById('admin-comment').value;
 
-            const notices = getNotices();
-            const index = notices.findIndex(n => n.id === currentEditingId);
+            db = db.map(item => {
+                if (item.id === selectedRecordId) {
+                    item.status = newStatus;
+                    item.adminComment = comment;
+                }
+                return item;
+            });
 
-            if (index !== -1) {
-                notices[index].status = newStatus;
-                notices[index].adminComment = comment;
-                saveNotices(notices);
-                showToast(`ステータスを「${newStatus}」に更新しました`, "success");
-                closeDetailModal();
-                renderAdminList();
-            }
+            localStorage.setItem('fcn_absence_records_v2', JSON.stringify(db));
+            closeDetailModal();
+            renderAdminList();
+            renderStudentHistory();
+            alert(`ステータスを「${newStatus}」に更新しました。`);
         }
 
-        // --- CSV出力 ---
+        function filterAdminList() {
+            const query = document.getElementById('admin-search').value.toLowerCase();
+            const statusFilter = document.getElementById('admin-filter-status').value;
+            const rows = document.querySelectorAll('.admin-row');
+
+            rows.forEach(row => {
+                const searchData = row.getAttribute('data-search');
+                const rowStatus = row.getAttribute('data-status');
+
+                const matchesSearch = searchData.includes(query);
+                const matchesStatus = (statusFilter === 'ALL' || rowStatus === statusFilter);
+
+                if (matchesSearch && matchesStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
         function exportToCSV() {
-            const notices = getNotices();
-            if (notices.length === 0) {
-                showToast("出力できるデータがありません", "warning");
+            if (db.length === 0) {
+                alert('出力するデータがありません。');
                 return;
             }
 
-            let csvContent = "\uFEFF";
-            csvContent += "申請ID,申請日時,学年,学籍番号,氏名,欠席理由,続柄,欠席開始日,欠席終了日,授業件数,ステータス,コメント\n";
+            let csv = '\uFEFF申請日時,学年,学籍番号,氏名,欠席区分,続柄,欠席開始日,欠席終了日,事由,判定ステータス,教員コメント\n';
 
-            notices.forEach(n => {
-                const row = [
-                    `"${n.id}"`,
-                    `"${n.submittedAt}"`,
-                    `"${n.studentGrade}"`,
-                    `"${n.studentId}"`,
-                    `"${n.studentName}"`,
-                    `"${n.reasonCategory}"`,
-                    `"${n.relationship || ''}"`,
-                    `"${n.startDate}"`,
-                    `"${n.endDate}"`,
-                    `"${n.courses.length}"`,
-                    `"${n.status}"`,
-                    `"${(n.adminComment || '').replace(/"/g, '""')}"`
-                ];
-                csvContent += row.join(",") + "\n";
+            db.forEach(item => {
+                const cleanReason = (item.reasonDetails || '').replace(/"/g, '""');
+                const cleanComment = (item.adminComment || '').replace(/"/g, '""');
+                csv += `"${item.createdAt}","${item.grade}","${item.studentId}","${item.name}","${item.category}","${item.relationship || ''}","${item.startDate}","${item.endDate}","${cleanReason}","${item.status}","${cleanComment}"\n`;
             });
 
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `福岡看護大学_欠席届一覧_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast("CSVをダウンロードしました", "success");
-        }
-
-        // --- 印刷 ---
-        function printDetailModal() {
-            if(!currentEditingId) return;
-            const notices = getNotices();
-            const notice = notices.find(n => n.id === currentEditingId);
-            if(!notice) return;
-
-            let courseRows = notice.courses.map(c => `
-                <tr>
-                    <td style="border:1px solid #ccc; padding:6px;">${c.date}</td>
-                    <td style="border:1px solid #ccc; padding:6px;">${c.period}</td>
-                    <td style="border:1px solid #ccc; padding:6px;">${c.name}</td>
-                </tr>
-            `).join('');
-
-            const printHtml = `
-                <div style="font-family: sans-serif; max-w-2xl; margin: auto; padding: 20px;">
-                    <div style="text-align: center; border-bottom: 2px solid #075985; padding-bottom: 10px; margin-bottom: 20px;">
-                        <h1 style="font-size: 20px; font-weight: bold; margin: 0;">福岡看護大学 欠 席 届 (公式記録)</h1>
-                        <p style="font-size: 12px; color: #666; margin-top: 4px;">申請ID: ${notice.id} / 申請日時: ${notice.submittedAt}</p>
-                    </div>
-
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
-                        <tr>
-                            <th style="border:1px solid #ccc; background:#f0f9ff; padding:8px; width:20%;">学年</th>
-                            <td style="border:1px solid #ccc; padding:8px; width:30%;">${notice.studentGrade}</td>
-                            <th style="border:1px solid #ccc; background:#f0f9ff; padding:8px; width:20%;">学籍番号</th>
-                            <td style="border:1px solid #ccc; padding:8px; width:30%;">${notice.studentId}</td>
-                        </tr>
-                        <tr>
-                            <th style="border:1px solid #ccc; background:#f0f9ff; padding:8px;">氏名</th>
-                            <td style="border:1px solid #ccc; padding:8px;">${notice.studentName}</td>
-                            <th style="border:1px solid #ccc; background:#f0f9ff; padding:8px;">欠席理由</th>
-                            <td style="border:1px solid #ccc; padding:8px;">${notice.reasonCategory} ${notice.relationship ? `(${notice.relationship})` : ''}</td>
-                        </tr>
-                        <tr>
-                            <th style="border:1px solid #ccc; background:#f0f9ff; padding:8px;">欠席期間</th>
-                            <td colspan="3" style="border:1px solid #ccc; padding:8px;">${notice.startDate} 〜 ${notice.endDate}</td>
-                        </tr>
-                        ${notice.details ? `
-                        <tr>
-                            <th style="border:1px solid #ccc; background:#f0f9ff; padding:8px;">具体的事由</th>
-                            <td colspan="3" style="border:1px solid #ccc; padding:8px;">${notice.details}</td>
-                        </tr>
-                        ` : ''}
-                    </table>
-
-                    <h3 style="font-size: 14px; font-weight: bold; margin-bottom: 8px;">【欠席授業】</h3>
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px;">
-                        <thead>
-                            <tr style="background:#f0f9ff;">
-                                <th style="border:1px solid #ccc; padding:6px;">日付</th>
-                                <th style="border:1px solid #ccc; padding:6px;">時限</th>
-                                <th style="border:1px solid #ccc; padding:6px;">授業科目名</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${courseRows}
-                        </tbody>
-                    </table>
-
-                    <div style="border: 1px solid #ccc; padding: 12px; border-radius: 4px; font-size: 12px; margin-top:30px;">
-                        <strong>判定ステータス:</strong> ${notice.status}<br>
-                        <strong>教員・学務指示欄:</strong> ${notice.adminComment || 'なし'}
-                    </div>
-                </div>
-            `;
-
-            const printArea = document.getElementById('print-area');
-            printArea.innerHTML = printHtml;
-            window.print();
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `欠席届申請一覧_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
         }
 
         function resetDemoData() {
-            if(confirm("データを初期状態に戻しますか？")) {
-                localStorage.setItem('nursing_absence_notices', JSON.stringify(initialDemoData));
-                showToast("初期データにリセットしました", "info");
+            if (confirm('すべての登録データをクリアしますか？')) {
+                db = [];
+                localStorage.removeItem('fcn_absence_records_v2');
                 renderAdminList();
-                updateHistoryBadge();
+                renderStudentHistory();
             }
-        }
-
-        function showToast(msg, type = "info") {
-            const toast = document.getElementById('toast');
-            const icon = document.getElementById('toast-icon');
-            const message = document.getElementById('toast-message');
-
-            message.innerText = msg;
-
-            if (type === 'success') {
-                icon.className = "fa-solid fa-circle-check text-emerald-400";
-            } else if (type === 'error') {
-                icon.className = "fa-solid fa-circle-xmark text-rose-400";
-            } else if (type === 'warning') {
-                icon.className = "fa-solid fa-triangle-exclamation text-amber-400";
-            } else {
-                icon.className = "fa-solid fa-circle-info text-sky-400";
-            }
-
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
         }
     </script>
 </body>
