@@ -261,7 +261,7 @@
                                 <thead class="text-xs text-nursing-900 bg-slate-100 uppercase border-b border-slate-200">
                                     <tr>
                                         <th class="px-3 py-2.5 w-40">日付</th>
-                                        <th class="px-3 py-2.5 w-32">時限</th>
+                                        <th class="px-3 py-2.5 min-w-[200px]">時限</th>
                                         <th class="px-3 py-2.5">授業科目名</th>
                                         <th class="px-3 py-2.5 w-14 text-center">削除</th>
                                     </tr>
@@ -625,7 +625,6 @@
 
         function addCourseRow() {
             const tbody = document.getElementById('courses-table-body');
-            const rowCount = tbody.children.length + 1;
             const tr = document.createElement('tr');
             tr.className = "hover:bg-slate-50 transition";
             const today = new Date().toISOString().split('T')[0];
@@ -636,12 +635,12 @@
                 </td>
                 <td class="px-3 py-2">
                     <select class="course-period w-full px-2 py-1 border border-slate-300 rounded text-xs bg-white focus:ring-1 focus:ring-nursing-500">
-                        <option value="1時限">1時限 (09:00~)</option>
-                        <option value="2時限">2時限 (10:40~)</option>
-                        <option value="3時限">3時限 (13:00~)</option>
-                        <option value="4時限">4時限 (14:40~)</option>
-                        <option value="5時限">5時限 (16:20~)</option>
-                        <option value="終日">終日 (1~5時限)</option>
+                        <option value="1限目">1限目</option>
+                        <option value="2限目">2限目</option>
+                        <option value="3限目">3限目</option>
+                        <option value="4限目">4限目</option>
+                        <option value="5限目">5限目</option>
+                        <option value="終日（欠席科目が〇〇実習の場合のみ）">終日（欠席科目が〇〇実習の場合のみ）</option>
                     </select>
                 </td>
                 <td class="px-3 py-2">
